@@ -126,6 +126,11 @@ inf-clojure, Leiningen, and Clojure's socket repl.
 	   ports are exposed.
 
 
+## Follow Up
+	1. To change the name of the project
+	   $ ./set-project-name.sh newname
+
+
 ## To Do
 	1. Get SSL working for psql.  For example, 
 	   $ psql postgresql://db-dev:5432/myapp?sslmode=require 
