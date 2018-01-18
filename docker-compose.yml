@@ -1,0 +1,49 @@
+version: '3.2'
+services:
+
+  db-dev:
+    image: postgres
+    container_name: myapp_db_dev_container
+    restart: always
+    expose:
+      - 5432
+    volumes:
+      - /data/myapp_db_dev_volume:/var/lib/postgresql/data
+  clj-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    image: myapp_clj_dev_image:latest
+    container_name: myapp_clj_dev_container
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/myapp
+    ports:
+      - 5555:5555
+      # - 8080:80
+      # - 4443:443
+    depends_on:
+      - db-dev
+
+  db-prod:
+    image: postgres
+    container_name: myapp_db_prod_container
+    restart: always
+    expose:
+      - 5432    
+    volumes:
+      - /data/myapp_db_prod_volume:/var/lib/postgresql/data
+  clj-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile-prod
+    image: myapp_clj_prod_image:latest
+    container_name: myapp_clj_prod_container
+    # ports:
+    #   - 8080:80
+    #   - 4443:443
+    command: java -jar app-standalone.jar
+    depends_on:
+      - db-prod
+
