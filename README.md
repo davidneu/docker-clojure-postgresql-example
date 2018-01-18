@@ -135,4 +135,6 @@ inf-clojure, Leiningen, and Clojure's socket repl.
 	1. Get SSL working for psql.  For example, 
 	   $ psql postgresql://db-dev:5432/myapp?sslmode=require 
 	2. Get SSL working with JDBC connection.
-	
+	3. See [Understanding Multiple Compose Files](https://docs.docker.com/compose/extends/#understanding-multiple-compose-files)
+       and consider this approach for separating dev and prod.
+	   
