@@ -62,8 +62,8 @@ inf-clojure, Leiningen, and Clojure's socket repl.
 
 
 ##  Development Database Setup
-	1. $ docker-compose build --force-rm clj-dev
-	2. $ docker-compose up --remove-orphans clj-dev
+	1. $ docker-compose --no-ansi build --force-rm clj-dev
+	2. $ docker-compose --no-ansi up --remove-orphans clj-dev
 	3. $ docker exec -it --detach-keys="ctrl-@" myapp_db_dev_container "/bin/bash"
 	4. $ psql -U postgres
 	5. postgres=# alter user postgres with password 'postgrespw';
@@ -92,8 +92,8 @@ inf-clojure, Leiningen, and Clojure's socket repl.
 
 
 ##  Development Workflow
-	1. $ docker-compose build --force-rm clj-dev
-	2. $ docker-compose up --remove-orphans clj-dev 
+	1. $ docker-compose --no-ansi build --force-rm clj-dev
+	2. $ docker-compose --no-ansi up --remove-orphans clj-dev 
 	3. $ docker exec -it --detach-keys="ctrl-@" myapp_clj_dev_container "/bin/bash"
 	4. $ lein trampoline run -m clojure.main
 	   - Dockerfile-dev puts a convenience script with this command in in /usr/local/bin/repl.
@@ -112,14 +112,14 @@ inf-clojure, Leiningen, and Clojure's socket repl.
        host and then run psql.
 	9. To stop the container
 	   a. Exit the container
-	   b. $ docker-compose down --volumes
+	   b. $ docker-compose --no-ansi down --volumes
 
 
 ##  Production Workflow
 	1. Create the production image
-	   - $ docker-compose build --force-rm clj-prod
+	   - $ docker-compose --no-ansi build --force-rm clj-prod
 	2. Run the production container
-	   - $ docker-compose up --remove-orphans clj-prod
+	   - $ docker-compose --no-ansi up --remove-orphans clj-prod
 	3. To look inside the running container
 	   - $ docker exec -it --detach-keys="ctrl-@" myapp_clj_prod_container "/bin/bash"
 	   but note that you connect to a repl from the host  because no
