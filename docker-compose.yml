@@ -21,8 +21,8 @@ services:
       - .:/myapp
     ports:
       - 5555:5555
-      # - 8080:80
-      # - 4443:443
+      - 8080:80
+      - 4443:443
     depends_on:
       - db-dev
 
@@ -31,7 +31,7 @@ services:
     container_name: myapp_db_prod_container
     restart: always
     expose:
-      - 5432    
+      - 5432
     volumes:
       - /data/myapp_db_prod_volume:/var/lib/postgresql/data
   clj-prod:
@@ -40,9 +40,9 @@ services:
       dockerfile: Dockerfile-prod
     image: myapp_clj_prod_image:latest
     container_name: myapp_clj_prod_container
-    # ports:
-    #   - 8080:80
-    #   - 4443:443
+    ports:
+      - "80:80"
+      - "443:443"
     command: java -jar app-standalone.jar
     depends_on:
       - db-prod

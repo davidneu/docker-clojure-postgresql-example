@@ -1,4 +1,4 @@
-FROM openjdk:9
+FROM java19:latest
 
 # FROM buildpack-deps:xenial-scm
 
@@ -28,6 +28,8 @@ RUN wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
     ./lein
 RUN printf '#!/bin/sh\nlein trampoline run -m clojure.main\n' > repl && \
     chmod 755 repl
+
+RUN echo 'PS1="clj-dev:\u@\h:\w# "' >> /root/.bashrc
 
 RUN mkdir /myapp
 WORKDIR /myapp

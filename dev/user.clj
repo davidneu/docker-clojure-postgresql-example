@@ -8,8 +8,6 @@
    [clojure.tools.namespace.repl :refer (refresh refresh-all)]
    [myapp.core]))
 
-(set! *print-length* 25)
-
 ;; (defn stop []
 ;;   ;; call functions in myapp.core to stop any running components
 ;;   )

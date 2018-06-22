@@ -10,8 +10,7 @@ inf-clojure, Leiningen, and Clojure's socket repl.
 ## Setup
 	Clone this repository, cd into its directory, and follow the
     remaining steps.  You may wish to copy this README.md file to a
-    another directory since it will be overwritten in the On Rails
-    section.
+    another directory since it will be overwritten in the steps below.
 
 
 ## Install Docker 
@@ -61,19 +60,25 @@ inf-clojure, Leiningen, and Clojure's socket repl.
 	6. $ docker-compose --version
 
 
+## Build Docker Java Image
+	Follow the instructions at
+    https://github.com/dartmouth-ic3d/docker-java to build a Docker
+    image for Ubuntu Linux that includes the Java JDK.
+
+
 ##  Development Database Setup
-	1. $ docker-compose --no-ansi build --force-rm clj-dev
-	2. $ docker-compose --no-ansi up -d --remove-orphans clj-dev
-	3. $ docker exec -it --detach-keys="ctrl-@" myapp_db_dev_container "/bin/bash"
-	4. $ psql -U postgres
-	5. postgres=# alter user postgres with password 'postgrespw';
-	6. Using an editor on the host, add the following lines to the
+	1. $ ./myapp build
+	2. $ ./myapp up
+	3. Using an editor on the host, add the following lines to the
        file /data/myapp_db_dev_volume/pg_hba.conf on the host
 	   local    all      postgres                md5
 	   local	all		 myapp		 			 md5
-	   host 	all		 myapp		samenet		 md5	 
+	   host 	all		 myapp		samenet		 md5
 	   The lines should be below the line "Put your actual
        configuration here".  Be sure to comment out all other lines.
+	4. $ ./myapp db
+	5. $ psql -U postgres
+	6. postgres=# alter user postgres with password 'postgrespw';
 	7. select pg_reload_conf();
 	   - Or, on the host run
 	   $ docker exec --user postgres --workdir /usr/lib/postgresql/10/bin myapp_db_dev_container pg_ctl reload
@@ -81,60 +86,59 @@ inf-clojure, Leiningen, and Clojure's socket repl.
 	9. $ createuser myapp -d -s -P -U postgres
 	10. $ createdb -U myapp myapp
 	11. Exit the db-dev container.
-	12. $ docker exec -it --detach-keys="ctrl-@" myapp_clj_dev_container "/bin/bash"	
+	12. $ ./myapp clj
 	13. $ psql -U myapp -d myapp -h db-dev
 	14. To avoid being prompted for a password, create the file
-		resources/.pgpass, and add the following line 
+		resources/.pgpass, with permissions 600, and add the following line
 		  db-dev:5432:myapp:myapp:myapppw
-	   Now you can type
-		 $ export PGPASSFILE=/myapp/resources/.pgpass; psql -U myapp -d myapp -h db-dev
-	15. myapp=# \i /myapp/resources/createdb.sql
+	    Now you can type
+		  $ export PGPASSFILE=/myapp/resources/db/.pgpass; psql -U myapp -d myapp -h db-dev
+	15. myapp=# \i ./resources/db/createdb.sql
+	16. Exit the clj-dev container
+		- $ ./myapp down
+		to stop both containers.
 
 
 ##  Development Workflow
-	1. $ docker-compose --no-ansi build --force-rm clj-dev
-	2. $ docker-compose --no-ansi up -d --remove-orphans clj-dev 
-	3. $ docker exec -it --detach-keys="ctrl-@" myapp_clj_dev_container "/bin/bash"
-	4. $ lein trampoline run -m clojure.main
-	   - Dockerfile-dev puts a convenience script with this command in in /usr/local/bin/repl.
-	5. To connect to the repl from emacs 
+	1. $ ./myapp build
+	2. $ ./myapp up
+	3. $ ./myapp clj
+	4. $ repl
+	   - Dockerfile-dev puts a convenience script with this command in /usr/local/bin/repl.
+	5. To connect to the repl from emacs
+	   a. M-x cd
+	      - Select the myapp project directory.
 	   a. M-x inf-clojure
 	   b. 0.0.0.0
 	   c. 5555
 	6. To load the application
-	   - user => (refresh-all)	   
+	   - user => (reset)
 	7. To load code into the repl in inf-clojure, while in a Clojure
        file, use commands such as inf-clojure-eval-buffer via C-c
        C-b.
 	8. To run the sample application
 	   - user => (myapp.core/-main)
-	8. To access the database, you can open another terminal from the
-       host and then run psql.
-	9. To stop the container
-	   a. Exit the container
-	   b. $ docker-compose --no-ansi down --volumes
+	9. To access the database, you can open another terminal from the
+       host and run ./myapp psql.  If you've run the sample
+       application you can then see the results:
+	   - # select * from myapp.sample;
+	9. Exit both containers
+	   - $ ./myapp down
+	   to stop both containers.
 
 
 ##  Production Workflow
 	1. Create the production image
-	   - $ docker-compose --no-ansi build --force-rm clj-prod
+	   - $ ./myapp build-prod
 	2. Run the production container
-	   - $ docker-compose --no-ansi up -d --remove-orphans clj-prod
+	   - $ ./myapp up-prod
 	3. To look inside the running container
 	   - $ docker exec -it --detach-keys="ctrl-@" myapp_clj_prod_container "/bin/bash"
-	   but note that you connect to a repl from the host  because no
-	   ports are exposed.
+	   but note that you cannot connect to a repl from the host
+	   because no ports are exposed.
 
 
 ## Follow Up
 	1. To change the name of the project
 	   $ ./set-project-name.sh newname
 
-
-## To Do
-	1. Get SSL working for psql.  For example, 
-	   $ psql postgresql://db-dev:5432/myapp?sslmode=require 
-	2. Get SSL working with JDBC connection.
-	3. See [Understanding Multiple Compose Files](https://docs.docker.com/compose/extends/#understanding-multiple-compose-files)
-       and consider this approach for separating dev and prod.
-	   

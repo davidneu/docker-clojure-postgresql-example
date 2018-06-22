@@ -1,4 +1,5 @@
 FROM myapp_clj_dev_image:latest
+RUN echo 'PS1="clj-prod:\u@\h:\w# "' >> /root/.bashrc
 COPY . /myapp
 RUN mv "$(lein uberjar | sed -n 's/^Created \(.*standalone\.jar\)/\1/p')" app-standalone.jar
 

@@ -1,0 +1,70 @@
+#!/bin/sh
+
+set -o errexit 
+set -o nounset
+
+usage="Usage: myapp {build | up | down | clj | db | psql}"
+
+if [ $# -eq 1 ]; then
+
+  cmd=$1
+
+  case $cmd in
+
+    # myapp build
+    build )
+      echo 'build ...'
+      docker-compose --no-ansi build --force-rm clj-dev
+      ;;
+
+    # myapp build-prod
+    build-prod )
+      echo 'build-prod ...'
+      docker-compose --no-ansi build --force-rm clj-prod
+      ;;
+
+    # myapp up
+    up )
+      echo 'up ...'
+      docker-compose --no-ansi up --remove-orphans -d clj-dev
+      ;;
+
+    # myapp up-prod
+    up )
+      echo 'up-prod ...'
+      docker-compose --no-ansi up --remove-orphans -d clj-prod
+      ;;
+
+    # myapp down
+    down )
+      echo 'down ...'
+      docker-compose --no-ansi down --volumes
+      ;;
+
+    # myapp clj
+    clj )
+      echo 'clj ...'
+      docker exec -it --detach-keys="ctrl-@" myapp_clj_dev_container "/bin/bash"
+      ;;
+
+    # myapp db
+    db )
+      echo 'db ...'
+      docker exec -it --detach-keys="ctrl-@" myapp_db_dev_container "/bin/bash"      
+      ;;
+
+    # myapp psql
+    psql )
+      echo 'psql ...'
+      docker exec -it --detach-keys='ctrl-@' myapp_clj_dev_container /usr/bin/psql -U myapp -h db-dev myapp
+      ;;
+
+    * )
+      echo $usage
+      ;;
+  esac
+
+else
+    echo $usage
+fi
+

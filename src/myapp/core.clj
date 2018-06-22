@@ -36,15 +36,15 @@
   (let [n 100]
 
     (jdbc/delete! db "myapp.sample" [])
-    
+
     (println (format "I'm going to create a sample of %d random numbers ...\n" n))
     (sample-create db n)
-    
+
     (println "That was a lot of work, I'm going to take a nap ...\n")
     (spit "/tmp/myapp.txt" "I'm sleeping ...\n")
     (Thread/sleep (* 10 1000))
 
     (println "OK, now I'm going to compute some statistics on the sample ...\n")
-    
+
     (println (summary-format (sample-summary db)))))
 
