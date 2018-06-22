@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sh -c "`pwd`/myapp psql"
+
