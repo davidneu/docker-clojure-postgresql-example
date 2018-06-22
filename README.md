@@ -1,4 +1,4 @@
-# Setting Up a Docker Development and Production Environment for Clojure and Postgresql
+# Setting Up a Docker Development and Production Environment for Clojure and Postgresql Applications
 
 
 ## Overview
