@@ -139,20 +139,32 @@ inf-clojure, Leiningen, and Clojure's socket repl.
 
 
 ##  Emacs
-	To use sql-postgres mode to access the database from the host, put
-	the following in your init.el file, substituting the correct path
-	for the sql-postgres-program variable:
+	1. To use sql-postgres mode to access the database from the host,
+       put the following in your init.el file, substituting the
+       correct path for the sql-postgres-program variable: 
 
-	(use-package sql-mode
-		:init
-		(setq sql-postgres-program "~/projects/myapp/myapp-psql")
-		(setq sql-postgres-login-params nil))
+	   (use-package sql-mode
+		   :init
+		   (setq sql-postgres-program "~/projects/myapp/myapp-psql")
+		   (setq sql-postgres-login-params nil))
 
-	If you don't use use-package, simply setting the
-	sql-postgres-program and sql-postgres-login-params should work.
+	   If you don't use use-package, simply setting the
+	   sql-postgres-program and sql-postgres-login-params should
+	   work.
+
+	2. It can helpful to a function such as the following to init.el:
+
+	   (defun myapp-buffers ()
+		   (interactive)
+		   (cd "~/projects/myapp")
+		   (ansi-term "/bin/bash" "docker-clj-psql")
+		   (end-of-buffer)
+		   (ansi-term "/bin/bash" "docker-clj-repl")
+		   (end-of-buffer))
 
 
 ## Follow Up
 	1. To change the name of the project
 	   $ ./set-project-name.sh newname
+
 
