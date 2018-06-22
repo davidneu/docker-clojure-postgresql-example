@@ -2,7 +2,7 @@
 
 
 ## Overview
-This project shows how to use Docker and Docker compose to develop and
+This project shows how to use Docker and Docker Compose to develop and
 deploy Clojure and Postgresql based applications.  It uses Emacs with
 inf-clojure, Leiningen, and Clojure's socket repl.
 
