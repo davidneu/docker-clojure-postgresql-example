@@ -127,6 +127,18 @@ inf-clojure, Leiningen, and Clojure's socket repl.
 	   - $ ./myapp down
 
 
+##  Multiple Environments
+    Running multiple environments on a single machine requires changes
+    to the docker-compose.yml file.  Each environment must have unique
+    values for
+	- the volumes key in the db-dev (db-prod) container, and
+	- the ports keys in the clj-dev (clj-prod) container.
+	Unique volume key values provide each environemt with its own
+	Postgresql data directory, and unique ports keys are required to
+	avoid conflicts between the web server and Clojure socket ports
+	used by each environment.
+
+
 ##  Production Workflow
 	1. Create the production image
 	   - $ ./myapp build-prod
