@@ -124,7 +124,7 @@ inf-clojure, Leiningen, and Clojure's socket repl.
 	   - # select * from myapp.sample;
 	9. Exit both containers
 	   - $ ./myapp down
-	   to stop both containers.
+	   to stop them.
 
 
 ##  Production Workflow
@@ -152,7 +152,7 @@ inf-clojure, Leiningen, and Clojure's socket repl.
 	   sql-postgres-program and sql-postgres-login-params should
 	   work.
 
-	2. It can helpful to a function such as the following to init.el:
+	2. It can helpful to add a function such as the following to init.el:
 
 	   (defun myapp-buffers ()
 		   (interactive)
@@ -166,5 +166,4 @@ inf-clojure, Leiningen, and Clojure's socket repl.
 ## Follow Up
 	1. To change the name of the project
 	   $ ./set-project-name.sh newname
-
 
