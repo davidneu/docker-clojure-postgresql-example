@@ -94,9 +94,9 @@ inf-clojure, Leiningen, and Clojure's socket repl.
 	    Now you can type
 		  $ export PGPASSFILE=/myapp/resources/db/.pgpass; psql -U myapp -d myapp -h db-dev
 	15. myapp=# \i ./resources/db/createdb.sql
-	16. Exit the clj-dev container
+	16. Exit the clj-dev container.
+	17. Stop the containers
 		- $ ./myapp down
-		to stop both containers.
 
 
 ##  Development Workflow
@@ -122,9 +122,9 @@ inf-clojure, Leiningen, and Clojure's socket repl.
        host and run ./myapp psql.  If you've run the sample
        application you can then see the results:
 	   - # select * from myapp.sample;
-	9. Exit both containers
+	9. Exit both containers.
+	10. Stop the containers
 	   - $ ./myapp down
-	   to stop them.
 
 
 ##  Production Workflow
