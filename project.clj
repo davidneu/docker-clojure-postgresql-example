@@ -14,7 +14,8 @@
                    :dependencies [[clj-stacktrace "0.2.8"]
                                   [org.clojure/tools.namespace "0.2.11"]
                                   [org.clojure/java.classpath "0.3.0"]]
-                   :injections [(let [orig (ns-resolve (doto 'clojure.main require)
+                   :injections [(require 'complete.core) ;; used by inf-clojure
+                                (let [orig (ns-resolve (doto 'clojure.main require)
                                                        'repl-caught)
                                       new (ns-resolve (doto 'clj-stacktrace.repl require)
                                                       'pst)]
