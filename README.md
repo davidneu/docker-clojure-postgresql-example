@@ -178,4 +178,5 @@ inf-clojure, Leiningen, and Clojure's socket repl.
 ## Follow Up
 	1. To change the name of the project
 	   $ ./set-project-name.sh newname
+	2. To handle SSL traffic see, [Setting Up an Nginx SSL Reverse Proxy in a Docker Container](https://github.com/davidneu/docker-nginx-ssl-reverse-proxy-example).
 
