@@ -13,15 +13,9 @@
   :profiles {:dev {:source-paths ["dev"]
                    :dependencies [[clj-stacktrace "0.2.8"]
                                   [org.clojure/tools.namespace "0.2.11"]
-                                  [org.clojure/java.classpath "0.3.0"]]
-                   :injections [(require 'complete.core) ;; used by inf-clojure
-                                (let [orig (ns-resolve (doto 'clojure.main require)
-                                                       'repl-caught)
-                                      new (ns-resolve (doto 'clj-stacktrace.repl require)
-                                                      'pst)]
-                                  (alter-var-root orig (constantly (deref new))))]}
+                                  [org.clojure/java.classpath "0.3.0"]]}
              :uberjar {:aot :all}} ;; only for application, comment out for libraries
-  :jvm-opts ["-Dclojure.server.repl={:port 5555 :accept clojure.core.server/repl :address \"0.0.0.0\"}"
+  :jvm-opts ["-Dclojure.server.repl={:port 5555 :accept cljdt/repl :address \"0.0.0.0\"}"
              "-Xms2g"
              "-Xmx2g"
              "-server"])
