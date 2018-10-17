@@ -6,6 +6,8 @@ if [ -d ."git" ]; then
 fi
    
 if [ $# -eq 1 ]; then
+    mv myapp "$1"
+    mv myapp-psql "$1-psql"    
     mv src/myapp/ "src/$1"
     mv test/myapp/ "test/$1"
     find . -type f -exec sed -i "s/myapp/$1/g" {} +
