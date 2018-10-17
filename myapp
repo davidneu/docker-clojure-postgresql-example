@@ -3,7 +3,7 @@
 set -o errexit 
 set -o nounset
 
-usage="Usage: myapp {build | up | down | clj | db | psql}"
+usage="Usage: myapp {build | up | down | clj | db | psql | clean}"
 
 if [ $# -eq 1 ]; then
 
@@ -57,6 +57,16 @@ if [ $# -eq 1 ]; then
     psql )
       echo 'psql ...'
       docker exec -it --detach-keys='ctrl-@' myapp_clj_dev_container /usr/bin/psql -U myapp -h db-dev myapp
+      ;;
+
+    # myapp clean
+    clean )
+      echo 'clean ...'
+      set +e
+      docker-compose --no-ansi down --volumes --remove-orphans
+      docker container rm myapp_clj_dev_container --volumes
+      docker image rm myapp_clj_dev_image:latest
+      docker container rm myapp_db_dev_container --volumes
       ;;
 
     * )
